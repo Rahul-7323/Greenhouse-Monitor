@@ -3,8 +3,8 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 
-from django_mongo_api.models import Test
-from django_mongo_api.serializers import TestSerializer
+from django_mongo_api.models import Test, Sensor
+from django_mongo_api.serializers import TestSerializer, SensorSerializer
 from rest_framework.decorators import api_view
 
 # Create your views here.
@@ -20,4 +20,16 @@ def test_data(request):
     data = Test.objects.all()
     serializer = TestSerializer(data, many = True)
     return JsonResponse(serializer.data, safe = False)
-    
+
+@api_view(['GET', 'POST'])
+def sensor_data(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = SensorSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    data = Sensor.objects.last()
+    serializer = SensorSerializer(data)
+    return JsonResponse(serializer.data, safe = False)

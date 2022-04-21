@@ -7,3 +7,15 @@ class Test(models.Model):
     
     class Meta:
         db_table = 'test'
+
+class Sensor(models.Model):
+    temperature = models.IntegerField(blank=False, default=25)
+    moisture = models.IntegerField(blank=False, default=50)
+    humidity = models.IntegerField(blank=False, default=50)
+    air_vent = models.BooleanField(blank=False, default=True)
+    water_pump = models.BooleanField(blank=False, default=False)
+    
+    class Meta:
+        db_table = 'sensor'
+    
+    
