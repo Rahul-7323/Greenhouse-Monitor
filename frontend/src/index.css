@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .cool-bg {
+        @apply transition duration-200 hover:ease-in-out hover:scale-105 hover:shadow-2xl hover:shadow-red-300;
+    }
+}

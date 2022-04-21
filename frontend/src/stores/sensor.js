@@ -10,7 +10,7 @@ export const useSensorStore = defineStore({
     },
     actions: {
         async fetchData() {
-            this.data = await fetch("https://greenhouse-monitor.herokuapp.com/api/test")
+            this.data = await fetch("https://greenhouse-monitor.herokuapp.com/api/sensor")
                             .then(resp => {
                                 if(resp.status >= 400){
                                     throw Error("Cannot fetch data");
@@ -18,6 +18,7 @@ export const useSensorStore = defineStore({
                                 return resp.json()
                             })
                             .then(data => data)
+            console.log(this.data);
         }
     }
 })
