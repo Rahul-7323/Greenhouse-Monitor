@@ -6,11 +6,13 @@ import SensorHumidity from "../components/SensorHumidity.vue";
 import SensorAirVent from "../components/SensorAirVent.vue";
 import SensorWaterPump from "../components/SensorWaterPump.vue";
 import TheHeader from "../components/TheHeader.vue";
+import TheFooter from "../components/TheFooter.vue";
 
 
 export default {
     components: {
     TheHeader,
+    TheFooter,
     SensorHumidity,
     SensorTemperature,
     SensorMoisture,
@@ -24,6 +26,7 @@ export default {
     data() {
         return {
             loadingBar: 0,
+            fetchingData: true,
         }
     },
     computed: {
@@ -31,8 +34,10 @@ export default {
             return this.SensorStore.data;
         }
     },
-    mounted(){
-        this.SensorStore.fetchData();
+    async mounted(){
+        this.fetchingData = true;
+        await this.SensorStore.fetchData();
+        this.fetchingData = false;
         setInterval(() => {
             this.loadingBar += 0.2;
             if(this.loadingBar > 100){
@@ -53,12 +58,13 @@ export default {
 </div>
 <div class="p-5 flex flex-col gap-y-10">
     <TheHeader/>
-    <div class="flex flex-row flex-wrap gap-10 justify-center">
+    <div class="flex flex-row flex-wrap gap-10 justify-center" :class="{'blur-md': fetchingData}">
         <SensorTemperature :temperature="data.temperature"/>
         <SensorMoisture :moisture="data.moisture"/>
         <SensorHumidity :humidity="data.humidity"/>
         <SensorAirVent :isOpen="data.air_vent"/>
         <SensorWaterPump :isOn="data.water_pump"/>
     </div>
+    <TheFooter/>
 </div>
 </template>
