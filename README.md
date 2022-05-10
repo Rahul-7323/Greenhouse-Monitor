@@ -1,5 +1,3 @@
-<br>
-
 # `Greenhouse Monitor`
 
 ## About The Project
