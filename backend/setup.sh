@@ -13,7 +13,7 @@ fi;
 if ! [ -f $requirements ]; then
     echo "$requirements not present"
     echo "Creating a dummy $requirements"
-    echo "flask" > $requirements
+    echo "Django==4.0.4" > $requirements
 fi;
 
 echo "Activating virtual environment"
